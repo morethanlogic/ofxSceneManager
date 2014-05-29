@@ -36,12 +36,13 @@ class ofxSceneManager{
 		bool isTransitioning(){ return !curtain.isReady(); }
 
 		//events - desktop
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
+        void keyPressed(ofKeyEventArgs& args);
+        void keyReleased(ofKeyEventArgs& args);
+        void mouseDragged(ofMouseEventArgs& args);
+        void mouseMoved(ofMouseEventArgs& args);
+        void mousePressed(ofMouseEventArgs& args);
+        void mouseReleased(ofMouseEventArgs& args);
+    
 		void windowResized(int w, int h);		
 		
 		//touch events - ios

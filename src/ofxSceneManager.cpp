@@ -10,9 +10,14 @@
 #include "ofxSceneManager.h"
 #include "ofxScene.h"
 
-ofxSceneManager* ofxSceneManager::singleton = NULL; 
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+ofxSceneManager* ofxSceneManager::singleton = NULL;
 
-ofxSceneManager::ofxSceneManager(){
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+ofxSceneManager::ofxSceneManager()
+{
 
 	currentScene = futureScene = NULL;
 	curtainDropTime = 0.5f;
@@ -21,21 +26,40 @@ ofxSceneManager::ofxSceneManager(){
 	drawDebugInfo = false;
 	overlapUpdate = false;
 	curtain.setAnimationCurve(EASE_IN_EASE_OUT);
+    
+    // Register for OF events.
+    ofAddListener(ofEvents().mouseDragged, this, &ofxSceneManager::mouseDragged);
+    ofAddListener(ofEvents().mouseMoved, this, &ofxSceneManager::mouseMoved);
+    ofAddListener(ofEvents().mousePressed, this, &ofxSceneManager::mousePressed);
+    ofAddListener(ofEvents().mouseReleased, this, &ofxSceneManager::mouseReleased);
+    ofAddListener(ofEvents().keyPressed, this, &ofxSceneManager::keyPressed);
+    ofAddListener(ofEvents().keyReleased, this, &ofxSceneManager::keyReleased);
 }
 
-
-ofxSceneManager* ofxSceneManager::instance(){
+//--------------------------------------------------------------
+ofxSceneManager* ofxSceneManager::instance()
+{
 	if (!singleton){   // Only allow one instance of class to be generated.
 		singleton = new ofxSceneManager();
 	}
 	return singleton;
 }
 
+//--------------------------------------------------------------
+ofxSceneManager::~ofxSceneManager()
+{
+    // Unregister from OF events.
+    ofRemoveListener(ofEvents().mouseDragged, this, &ofxSceneManager::mouseDragged);
+    ofRemoveListener(ofEvents().mouseMoved, this, &ofxSceneManager::mouseMoved);
+    ofRemoveListener(ofEvents().mousePressed, this, &ofxSceneManager::mousePressed);
+    ofRemoveListener(ofEvents().mouseReleased, this, &ofxSceneManager::mouseReleased);
+    ofRemoveListener(ofEvents().keyPressed, this, &ofxSceneManager::keyPressed);
+    ofRemoveListener(ofEvents().keyReleased, this, &ofxSceneManager::keyReleased);
+}
 
-ofxSceneManager::~ofxSceneManager(){}
-
-
-void ofxSceneManager::addScene( ofxScene* newScene, int sceneID ){
+//--------------------------------------------------------------
+void ofxSceneManager::addScene( ofxScene* newScene, int sceneID )
+{
 
 	int c = scenes.count( sceneID );
 	
@@ -54,8 +78,9 @@ void ofxSceneManager::addScene( ofxScene* newScene, int sceneID ){
 	}
 }
 
-
-void ofxSceneManager::update( float dt ){
+//--------------------------------------------------------------
+void ofxSceneManager::update( float dt )
+{
 
 	if ( !curtain.isReady() ){ //curtain is busy, so we are pre or post transition
 
@@ -93,8 +118,9 @@ void ofxSceneManager::update( float dt ){
 	}
 }
 
-
-void ofxSceneManager::draw(){
+//--------------------------------------------------------------
+void ofxSceneManager::draw()
+{
 
 	if (currentScene != NULL){
 		
@@ -122,7 +148,9 @@ void ofxSceneManager::draw(){
 	}
 }
 
-void ofxSceneManager::drawDebug(){
+//--------------------------------------------------------------
+void ofxSceneManager::drawDebug()
+{
 
 	int y = 20;
 	int x = 20;
@@ -140,8 +168,9 @@ void ofxSceneManager::drawDebug(){
 	}
 }
 
-
-bool ofxSceneManager::goToScene( int ID, bool regardless, bool doTransition){
+//--------------------------------------------------------------
+bool ofxSceneManager::goToScene(int ID, bool regardless, bool doTransition)
+{
 	
 	if ( curtain.isReady() || regardless){
 
@@ -181,8 +210,9 @@ bool ofxSceneManager::goToScene( int ID, bool regardless, bool doTransition){
 	return false;
 }
 
-
-void ofxSceneManager::updateHistory( ofxScene * s ){
+//--------------------------------------------------------------
+void ofxSceneManager::updateHistory( ofxScene * s )
+{
 	
 	history.push_back(s);
 	if (history.size() > MAX_HISTORY){
@@ -190,26 +220,30 @@ void ofxSceneManager::updateHistory( ofxScene * s ){
 	}	
 }
 
-
-int ofxSceneManager::getNumScenes(){ 
+//--------------------------------------------------------------
+int ofxSceneManager::getNumScenes()
+{
 	return scenes.size(); 
 }
 
-
-ofxScene * ofxSceneManager::getCurrentScene(){
+//--------------------------------------------------------------
+ofxScene * ofxSceneManager::getCurrentScene()
+{
 	return currentScene;
 }
 
-
-int ofxSceneManager::getCurrentSceneID(){
+//--------------------------------------------------------------
+int ofxSceneManager::getCurrentSceneID()
+{
 	if (currentScene != NULL )
 		return currentScene->getSceneID();
 	else
 		return NULL_SCENE;
 }
 
-
-ofxScene * ofxSceneManager::getScene(int sceneID){
+//--------------------------------------------------------------
+ofxScene * ofxSceneManager::getScene(int sceneID)
+{
 	if ( scenes.count( sceneID ) > 0 ){
 		return scenes[sceneID];
 	}else{
@@ -217,56 +251,79 @@ ofxScene * ofxSceneManager::getScene(int sceneID){
 	}
 };
 
-void ofxSceneManager::setCurtainDropTime(float t){
+//--------------------------------------------------------------
+void ofxSceneManager::setCurtainDropTime(float t)
+{
 	curtainDropTime = t;
 }
 
-void ofxSceneManager::setCurtainStayTime(float t){
+//--------------------------------------------------------------
+void ofxSceneManager::setCurtainStayTime(float t)
+{
 	curtainStayTime = t;
 }
 
-void ofxSceneManager::setCurtainRiseTime(float t){
+//--------------------------------------------------------------
+void ofxSceneManager::setCurtainRiseTime(float t)
+{
 	curtainRiseTime = t;
 }
 
-void ofxSceneManager::setCurtainTimes(float drop, float stay, float rise){
+//--------------------------------------------------------------
+void ofxSceneManager::setCurtainTimes(float drop, float stay, float rise)
+{
 	curtainDropTime = drop;
 	curtainStayTime = stay;
 	curtainRiseTime = rise;
 }
 
-void ofxSceneManager::setOverlapUpdate(bool t){
+//--------------------------------------------------------------
+void ofxSceneManager::setOverlapUpdate(bool t)
+{
 	overlapUpdate = t;
 }
 
 
 /// ALL EVENTS HERE /////////////////////////////////////////////////////////// TODO
-
-void ofxSceneManager::keyPressed(int key){
-	if (currentScene != NULL) currentScene->keyPressed( key );
+//--------------------------------------------------------------
+void ofxSceneManager::keyPressed(ofKeyEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->keyPressed( args.key );
 }
 
-void ofxSceneManager::keyReleased(int key){
-	if (currentScene != NULL) currentScene->keyReleased( key );
+//--------------------------------------------------------------
+void ofxSceneManager::keyReleased(ofKeyEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->keyReleased( args.key );
 }
 
-void ofxSceneManager::mouseMoved(int x, int y){	
-	if (currentScene != NULL) currentScene->mouseMoved( x, y );
+//--------------------------------------------------------------
+void ofxSceneManager::mouseMoved(ofMouseEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->mouseMoved( args.x, args.y );
 }
 
-void ofxSceneManager::mouseDragged(int x, int y, int button){	
-	if (currentScene != NULL) currentScene->mouseDragged( x, y, button );
+//--------------------------------------------------------------
+void ofxSceneManager::mouseDragged(ofMouseEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->mouseDragged( args.x, args.y, args.button );
 }
 
-void ofxSceneManager::mousePressed(int x, int y, int button){	
-	if (currentScene != NULL) currentScene->mousePressed( x, y, button );
+//--------------------------------------------------------------
+void ofxSceneManager::mousePressed(ofMouseEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->mousePressed( args.x, args.y, args.button );
 }
 
-void ofxSceneManager::mouseReleased(int x, int y, int button){	
-	if (currentScene != NULL) currentScene->mouseReleased( x, y, button );
+//--------------------------------------------------------------
+void ofxSceneManager::mouseReleased(ofMouseEventArgs& args)
+{
+	if (currentScene != NULL) currentScene->mouseReleased( args.x, args.y, args.button );
 }
 
-void ofxSceneManager::windowResized (int w, int h){
+//--------------------------------------------------------------
+void ofxSceneManager::windowResized (int w, int h)
+{
 	curtain.setScreenSize( ofRectangle(0, 0, w, h) );
 	for( map<int,ofxScene*>::iterator ii = scenes.begin(); ii != scenes.end(); ++ii ){
 		//string key = (*ii).first;
@@ -275,24 +332,34 @@ void ofxSceneManager::windowResized (int w, int h){
 	}
 }
 
+//--------------------------------------------------------------
 #ifdef TARGET_OF_IPHONE
-void ofxSceneManager::touchDown(ofTouchEventArgs &touch){
+void ofxSceneManager::touchDown(ofTouchEventArgs &touch)
+{
 	if (currentScene != NULL) currentScene->touchDown( touch );
 }
 
-void ofxSceneManager::touchMoved(ofTouchEventArgs &touch){
+//--------------------------------------------------------------
+void ofxSceneManager::touchMoved(ofTouchEventArgs &touch)
+{
 	if (currentScene != NULL) currentScene->touchMoved( touch );
 }
 
-void ofxSceneManager::touchUp(ofTouchEventArgs &touch){
+//--------------------------------------------------------------
+void ofxSceneManager::touchUp(ofTouchEventArgs &touch)
+{
 	if (currentScene != NULL) currentScene->touchUp( touch );
 }
 
-void ofxSceneManager::touchDoubleTap(ofTouchEventArgs &touch){
+//--------------------------------------------------------------
+void ofxSceneManager::touchDoubleTap(ofTouchEventArgs &touch)
+{
 	if (currentScene != NULL) currentScene->touchDoubleTap( touch );
 }
 
-void ofxSceneManager::touchCancelled(ofTouchEventArgs &touch){
+//--------------------------------------------------------------
+void ofxSceneManager::touchCancelled(ofTouchEventArgs &touch)
+{
 	if (currentScene != NULL) currentScene->touchCancelled( touch );
 }
 #endif

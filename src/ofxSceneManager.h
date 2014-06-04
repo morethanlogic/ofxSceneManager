@@ -26,7 +26,7 @@ class ofxSceneManager{
 		static ofxSceneManager* instance();
 		~ofxSceneManager();
 	
-		void update(float dt);
+		void update(float dt = (ofGetLastFrameTime() / 1000.0f));
 		void draw();
 	
 		void addScene( ofxScene* newScene, int sceneID );

@@ -66,13 +66,13 @@ void ofxSceneManager::addScene( ofxScene* newScene, int sceneID )
 	int c = scenes.count( sceneID );
 	
 	if ( c > 0 ){
-		printf("ofxSceneManager::addScene(%d) >> we already have a scene with that ID", sceneID );
+		ofLogVerbose() << "ofxSceneManager::addScene(" << sceneID << ") >> we already have a scene with that ID";
 	}else{
 		newScene->setManager( this );
 		newScene->setup();
 		newScene->setSceneID( sceneID );
 		scenes[sceneID] = newScene;
-		printf("ofxSceneManager::addScene(%d) >> added scene\n", sceneID );		
+		ofLogVerbose() << "ofxSceneManager::addScene(" << sceneID << ") >> added scene";
 		if (scenes.size() == 1){	//first scene, we activate it			
 			goToScene( sceneID, true/*regardless*/, false/*transition*/ ); 
 			currentScene = getScene( sceneID );
@@ -186,7 +186,7 @@ bool ofxSceneManager::goToScene(int ID, bool regardless, bool doTransition)
 				if (currentScene) currentScene->sceneWillDisappear(futureScene);				
 				return true;
 			}else{
-				printf("ofxSceneManager::goToScene(%d) >> scene not found!\n", ID);
+				ofLogVerbose() << "ofxSceneManager::goToScene(" << ID << ") >> scene not found!";
 			}			
 		}else{	
 			
@@ -205,9 +205,9 @@ bool ofxSceneManager::goToScene(int ID, bool regardless, bool doTransition)
 
 	}else{
 		if (futureScene != NULL)
-			printf("ofxSceneManager::goToScene(%d) >> CANT DO! we are in the middle of a transition to %d!\n", ID, futureScene->getSceneID() );
+			ofLogVerbose() << "ofxSceneManager::goToScene(" << ID << ") >> CANT DO! we are in the middle of a transition to " <<  futureScene->getSceneID() << "!";
 		else
-			printf("ofxSceneManager::goToScene(%d) >> CANT DO! we are in the middle of a transition to another scene!\n", ID );
+			ofLogVerbose() << "ofxSceneManager::goToScene(" << ID << ") >> CANT DO! we are in the middle of a transition to another scene!";
 	}
 	return false;
 }

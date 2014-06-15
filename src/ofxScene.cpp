@@ -4,13 +4,13 @@
 ofxScene::ofxScene()
     : bSetup(false)
 {
-    printf("ofxScene Constructor \n");
+    ofLogVerbose() << "ofxScene Constructor";
 }
 
 //--------------------------------------------------------------
 ofxScene::~ofxScene()
 {
-    printf("ofxScene Destructor :: %d\n", sceneID);
+    ofLogVerbose() << "ofxScene Destructor :: " << sceneID;
 }
 
 //--------------------------------------------------------------
@@ -18,7 +18,7 @@ void ofxScene::setup()
 {
     if (bSetup) return;
 
-    printf("ofxScene setup :: %d\n", sceneID);
+    ofLogVerbose() << "ofxScene setup :: " << sceneID;
 
     selfSetup();
 
@@ -30,7 +30,7 @@ void ofxScene::exit()
 {
     if (!bSetup) return;
     
-    printf("ofxScene setup :: %d\n", sceneID);
+    ofLogVerbose() << "ofxScene setup :: " << sceneID;
 
     selfExit();
     

@@ -52,10 +52,10 @@ public:
     virtual void resumeScene(){}
 
     //notifications
-    virtual void sceneWillAppear( ofxScene * fromScreen ) { printf("ofxScene::sceneWillAppear() :: %d\n", sceneID); };
-    virtual void sceneDidAppear() { printf("ofxScene::sceneDidAppear() :: %d\n", sceneID); };
-    virtual void sceneWillDisappear( ofxScene * toScreen) { printf("ofxScene::sceneWillDisappear() :: %d\n", sceneID); };
-    virtual void sceneDidDisappear( ofxScene * fromScreen ) { printf("ofxScene::sceneDidDisappear() :: %d\n", sceneID); };
+    virtual void sceneWillAppear( ofxScene * fromScreen ) { ofLogVerbose() << "ofxScene::sceneWillAppear() :: " << sceneID; };
+    virtual void sceneDidAppear() { ofLogVerbose() << "ofxScene::sceneDidAppear() :: " << sceneID; };
+    virtual void sceneWillDisappear( ofxScene * toScreen) { ofLogVerbose() << "ofxScene::sceneWillDisappear() :: " << sceneID; };
+    virtual void sceneDidDisappear( ofxScene * fromScreen ) { ofLogVerbose() << "ofxScene::sceneDidDisappear() :: " << sceneID; };
 
     //events - desktop
     virtual void keyPressed(int key) {} ;

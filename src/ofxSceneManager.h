@@ -43,7 +43,7 @@ class ofxSceneManager{
         void mousePressed(ofMouseEventArgs& args);
         void mouseReleased(ofMouseEventArgs& args);
     
-		void windowResized(int w, int h);		
+		void windowResized(ofResizeEventArgs& args);
 		
 		//touch events - ios
 		#ifdef TARGET_OF_IPHONE

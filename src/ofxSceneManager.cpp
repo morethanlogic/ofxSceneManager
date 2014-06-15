@@ -34,6 +34,8 @@ ofxSceneManager::ofxSceneManager()
     ofAddListener(ofEvents().mouseReleased, this, &ofxSceneManager::mouseReleased);
     ofAddListener(ofEvents().keyPressed, this, &ofxSceneManager::keyPressed);
     ofAddListener(ofEvents().keyReleased, this, &ofxSceneManager::keyReleased);
+    
+    ofAddListener(ofEvents().windowResized, this, &ofxSceneManager::windowResized);
 }
 
 //--------------------------------------------------------------
@@ -322,13 +324,13 @@ void ofxSceneManager::mouseReleased(ofMouseEventArgs& args)
 }
 
 //--------------------------------------------------------------
-void ofxSceneManager::windowResized (int w, int h)
+void ofxSceneManager::windowResized (ofResizeEventArgs& args)
 {
-	curtain.setScreenSize( ofRectangle(0, 0, w, h) );
+	curtain.setScreenSize( ofRectangle(0, 0, args.width, args.height) );
 	for( map<int,ofxScene*>::iterator ii = scenes.begin(); ii != scenes.end(); ++ii ){
 		//string key = (*ii).first;
 		ofxScene* t = (*ii).second;
-		t->windowResized(w, h);
+		t->windowResized(args.width, args.height);
 	}
 }
 

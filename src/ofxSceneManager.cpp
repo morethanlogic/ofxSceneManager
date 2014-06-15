@@ -254,6 +254,18 @@ ofxScene * ofxSceneManager::getScene(int sceneID)
 };
 
 //--------------------------------------------------------------
+void ofxSceneManager::setCurtainColor(ofColor color)
+{
+    curtain.setColor(color);
+}
+
+//--------------------------------------------------------------
+void ofxSceneManager::setCurtainSize(ofRectangle rect)
+{
+    curtain.setScreenSize(rect);
+}
+
+//--------------------------------------------------------------
 void ofxSceneManager::setCurtainDropTime(float t)
 {
 	curtainDropTime = t;

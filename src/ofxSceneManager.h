@@ -59,6 +59,8 @@ class ofxSceneManager{
 		bool getDrawDebug(){ return drawDebugInfo; }
 	
 		//settings
+        void setCurtainColor(ofColor color);
+        void setCurtainSize(ofRectangle rect);
 		void setCurtainDropTime(float t);
 		void setCurtainStayTime(float t);
 		void setCurtainRiseTime(float t);

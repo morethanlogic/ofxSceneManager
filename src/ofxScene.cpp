@@ -30,7 +30,7 @@ void ofxScene::exit()
 {
     if (!bSetup) return;
     
-    ofLogVerbose() << "ofxScene setup :: " << sceneID;
+    ofLogVerbose() << "ofxScene exit :: " << sceneID;
 
     selfExit();
     

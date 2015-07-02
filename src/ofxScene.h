@@ -39,17 +39,17 @@ public:
     
     // ---
     // Virtuals Methods
-    virtual void selfSetup() {}
-    virtual void selfExit() {}
+    virtual void selfSetup() {};
+    virtual void selfExit() {};
     
     virtual void selfUpdate(float dt){} ;
     virtual void selfDraw(){};
 
-    virtual void showUI(){}
-    virtual void hideUI(){}
+    virtual void showUI(){};
+    virtual void hideUI(){};
 
-    virtual void pauseScene(){}
-    virtual void resumeScene(){}
+    virtual void pauseScene(){};
+    virtual void resumeScene(){};
 
     //notifications
     virtual void sceneWillAppear( ofxScene * fromScreen ) { ofLogVerbose() << "ofxScene::sceneWillAppear() :: " << sceneID; };

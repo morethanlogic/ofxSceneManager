@@ -44,6 +44,8 @@ public:
     
     virtual void selfUpdate(float dt){} ;
     virtual void selfDraw(){};
+    
+    virtual void selfLeave(){};
 
     virtual void showUI(){};
     virtual void hideUI(){};
